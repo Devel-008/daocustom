@@ -56,6 +56,8 @@ public class BookController {
             return ResponseEntity.of(Optional.of(book));
         }catch (NullPointerException | UnsupportedOperationException | IllegalArgumentException e){
             logger.error("Error while creating ID {} :", book.getId() , e);
+            ResponseEntity<Book> response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            logger.error(String.valueOf(response));
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
