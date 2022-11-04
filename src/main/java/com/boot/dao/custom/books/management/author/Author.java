@@ -1,5 +1,6 @@
-package com.boot.dao.custom;
+package com.boot.dao.custom.books.management.author;
 
+import com.boot.dao.custom.books.management.book.Book;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;

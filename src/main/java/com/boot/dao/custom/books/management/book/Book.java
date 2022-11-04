@@ -1,5 +1,6 @@
-package com.boot.dao.custom;
+package com.boot.dao.custom.books.management.book;
 
+import com.boot.dao.custom.books.management.author.Author;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -8,7 +9,6 @@ import javax.persistence.*;
 @Table(name = "books_Author")
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private int id;
     @Column

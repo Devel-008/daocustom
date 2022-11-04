@@ -1,5 +1,6 @@
-package com.boot.dao.custom;
+package com.boot.dao.custom.books.management.repository;
 
+import com.boot.dao.custom.books.management.book.Book;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
