@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -51,37 +50,26 @@ public class BookController {
     }
     //adds single book
     @PostMapping("service/add")
-    public ResponseEntity<Book> addBook(@RequestBody Book book){
-        try {
-             this.service.addBook(book);
+    public ResponseEntity<String> addBook(@RequestBody Book book, Logger logger){
+             this.service.addBook(book,logger);
             System.out.println(book);
-            return ResponseEntity.of(Optional.of(book));
-        }catch (NullPointerException | UnsupportedOperationException | IllegalArgumentException e){
-            logger.error("Error while creating ID {} :", book.getId() , e);
-            ResponseEntity<Book> response = ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-            logger.error(String.valueOf(response));
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+            return ResponseEntity.ok("Book with ID " + book.getId() + " added successfully!!");
     }
     //add or create multiple book handler
     @PostMapping( "service/adds")
     public ResponseEntity<List<Book>> addBooks(@RequestBody List<Book> book){
-        List<Book> books = null;
-        try {
+        List<Book> books;
+
            if(book != null && !book.isEmpty()){
                books = service.addBooks(book);
            return ResponseEntity.of(Optional.of(books));
            }
-       }catch (NullPointerException | UnsupportedOperationException | IllegalArgumentException e){
-           logger.error("Error while adding these data {} :", books , e);
-           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-       }
         return null;
     }
     //delete book handler
     @DeleteMapping("service/books/{id}")
-    public ResponseEntity<Void> deleteBook(@PathVariable("id") int id){
-            if(this.service.deleteBook(id) != null){
+    public ResponseEntity<Void> deleteBook(@PathVariable("id") int id, Logger logger){
+            if(this.service.deleteBook(id,logger) != null){
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             }else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -90,13 +78,8 @@ public class BookController {
     //update book handler
     @PutMapping("service/books/{id}")
     public ResponseEntity<Book> updateBook(@RequestBody Book book, @PathVariable("id") int id){
-        try {
             this.service.updateBook(book,id,logger);
             System.out.println(book);
             return ResponseEntity.ok().body(book);
-        }catch (NoSuchElementException | NullPointerException e){
-            logger.error("Error with ID {} :", id , e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 }

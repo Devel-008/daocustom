@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "title": "Student",
+  "description": "Details about student and his personal details and marks details",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "description": "The unique identifier for a product",
+        "type": "integer"
+      },
+      "title": {
+        "description": "Title of the book",
+        "type": "string"
+      },
+      "author": {
+        "description": "Author Information",
+        "type": "object",
+        "properties": {
+          "authorId": {
+            "description": "The unique identifier for a Author",
+            "type": "integer"
+          },
+          "firstName": {
+            "description": "First Name of Author",
+            "type": "string"
+          },
+          "lastName": {
+            "description": "Last Name of Author",
+            "type": "string"
+          },
+          "language": {
+            "type": "string",
+            "description": "List of language author know",
+          }
+        }
+      },
+      "price": {
+        "description": "Price of book",
+        "type": "number"
+      }
+    },
+    "required": [
+      "id",
+      "title",
+      "author",
+      "price"
+    ]
+  }
+}

@@ -27,7 +27,7 @@ public class BookService {
             book = this.bookRepo.findById(id);
         }catch (NoSuchElementException e){
             logger.error("Got an Error: ",e);
-            logger.info(" ID {} not found!!!",id);
+            logger.info(" ID {} not found!!! ",id);
         }
         return book;
     }
@@ -43,13 +43,16 @@ public class BookService {
         return book;
     }
     //adding the book
-    public String addBook(Book book){
+    public String addBook(Book book, Logger logger){
+        logger.info(" Logger init to addBook");
         Book book1 = bookRepo.findById(book.getId());
 
         if(book1 == null) {
             bookRepo.save(book);
+            logger.info("Customer data created with ID {} ", book.getId());
             return "Book with ID " + book.getId() + " added successfully!!";
         }else {
+            logger.error("Customer data created with ID {} ", book.getId());
             throw new BookAlreadyExistsException("Book with ID " + book.getId() + " already exist");
         }
     }
@@ -58,12 +61,14 @@ public class BookService {
         return (List<Book>) bookRepo.saveAll(book);
     }
     //delete data
-    public String deleteBook(int id) {
+    public String deleteBook(int id, Logger logger) {
         Book book = bookRepo.findById(id);
         if(book == null){
-            throw new NoSuchElementException("No book with ID " + id + "exist !!");
+            logger.info("Customer data deleted with ID {} " , id);
+            throw new NoSuchElementException("No book with ID " + id + " exist !!");
         }else {
             bookRepo.deleteById(id);
+            logger.error("Customer not deleted with ID {} " , id);
             return "Book with ID " + id + " deleted successfully!!";
         }
     }
@@ -71,14 +76,15 @@ public class BookService {
     public String updateBook(Book book, int id,Logger logger) {
         Book book1 = bookRepo.findById(id);
         if(book1 == null){
-            logger.error("No such Customer exist with ID " + id);
+            logger.error("No such Customer exist with ID {} " , id);
             throw new NoSuchElementException("No such Customer exist with ID " + id);
         }else {
             book1.setTitle(book.getTitle());
             book1.setAuthor(book.getAuthor());
             book1.setPrice(book.getPrice());
             bookRepo.save(book1);
-            return "Record for ID" + id + "updated successfully";
+            logger.info("Customer data update with ID {} " , id);
+            return "Record for ID " + id + " updated successfully";
         }
     }
 }

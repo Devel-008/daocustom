@@ -34,7 +34,7 @@ public class FileUploadController {
             if(f){
                 return ResponseEntity.ok("File is successfully uploaded");
             }
-        }catch (Exception e){
+        }catch (RuntimeException e){
             e.printStackTrace();
         }
         return ResponseEntity.ok("working");
